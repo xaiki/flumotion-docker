@@ -12,7 +12,8 @@ RUN echo "deb http://www.deb-multimedia.org wheezy main non-free" > /etc/apt/sou
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
-RUN apt-get -y install deb-multimedia-keyring gstreamer0.10-plugins-really-bad
+RUN apt-get -y --force-yes install deb-multimedia-keyring gstreamer0.10-plugins-really-bad
+RUN dpkg -i /tmp/*.deb || true
+RUN apt-get -y --force-yes -f install
 RUN dpkg -i /tmp/*.deb
-RUN apt-get -y -f install
 
