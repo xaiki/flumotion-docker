@@ -1,0 +1,97 @@
+#+TITLE: Simple flumotion docker-file
+
+this is based on opcode's flumotion code
+
++    https://github.com/inaes-tic/flumotion-ugly
++    https://github.com/inaes-tic/flumotion
+
+the original readme
+
+* instalar gstreamer*
+
+* agregar repositorios de:
+    deb http://www.deb-multimedia.org wheezy main non-free
+
+* ahora instalar:
+    deb-multimedia-keyring
+    gstreamer0.10-plugins-really-bad
+
+* para debians nuevos (jeesie):
+    instalar twisted 11 desde aca:
+        http://twistedmatrix.com/Releases/Twisted/11.1/Twisted-11.1.0.tar.bz2
+        http://twistedmatrix.com/Releases/Web/11.1/TwistedWeb-11.1.0.tar.bz2
+
+    (descomprimir. como root python setup.py build ; python setup.py install)
+
+* instalar flumotion y flumotion-ugly de:
+    https://github.com/inaes-tic/flumotion-ugly
+    https://github.com/inaes-tic/flumotion
+
+* instalar drivers de blackmagick 9.7.3a5 , se bajan de:
+    http://www.blackmagicdesign.com/support
+    Host Computer Type: (x) Linux
+    Product Series: [DeckLink]
+    Product: [DeckLink SDI]
+    Include Legacy: (x)
+
+    [search]
+
+    Desktop Video 9.8 for Linux [Archived drivers >]
+        Desktop Video 9.7.3 for Linux [download]
+
+    descomprimir e instalar los dos .deb para amd64
+
+    Esto instala:
+        BlackmagicControlPanel
+        MediaExpress
+
+        (asi son los nombres para tirar de consola o dash)
+
+* ajustar resolucion:
+    DISPLAY=:0 xrandr -s 1280x720 --rate 50
+
+    ** asegurarse que la pc que pasa videos este igual **
+
+    ** recien despues de la resolucion **
+
+* lanzar el xml ya sea con flumotion-admin o por consola.
+
+    en una:  flumotion-manager -v -T tcp archivo_xml.xml
+    en otra: DISPLAY=:0 flumotion-worker -v -T tcp -u user -p test
+
+    ** videos quedan por default en /media/data/video
+
+* MONITOREO:
+    ssh -XY opcode@ip..
+    flumotion-admin en localhost NO ssl, user: user pass: test
+
+    remoto:
+        flumotion-admin
+            54.232.81.194
+            NO SSL
+            Port: 8000
+            user: user
+            pass: test
+
+* editar el xml para el modo en que emite la camara (la linea 39, donde dice mode=XX)
+
+   (0): NTSC SD 60i      - ntsc
+   (1): NTSC SD 60i (24 fps) - ntsc2398
+   (2): PAL SD 50i       - pal
+   (3): NTSC SD 60p      - ntsc-p
+   (4): PAL SD 50p       - pal-p
+   (5): HD1080 23.98p    - 1080p2398
+   (6): HD1080 24p       - 1080p24
+   (7): HD1080 25p       - 1080p25
+   (8): HD1080 29.97p    - 1080p2997
+   (9): HD1080 30p       - 1080p30
+   (10): HD1080 50i       - 1080i50
+   (11): HD1080 59.94i    - 1080i5994
+   (12): HD1080 60i       - 1080i60
+   (13): HD1080 50p       - 1080p50
+   (14): HD1080 59.94p    - 1080p5994
+   (15): HD1080 60p       - 1080p60
+   (16): HD720 50p        - 720p50
+   (17): HD720 59.94p     - 720p5994
+   (18): HD720 60p        - 720p60
+
